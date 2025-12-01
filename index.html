@@ -194,6 +194,40 @@ button:hover { box-shadow:0 0 30px var(--hover); background: var(--hover); }
   transition:0.2s;
 }
 #emojiPanel span:hover { transform: scale(1.2); box-shadow:0 0 15px var(--hover); }
+
+/* ====== Адаптив ====== */
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 70px 1fr auto;
+  }
+
+  .servers, .sidebar, .users {
+    display: none;
+  }
+
+  .main {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    padding:5px;
+  }
+
+  .input-row {
+    flex-wrap: wrap;
+    gap:5px;
+  }
+
+  input[type="text"] {
+    flex: 1 1 100%;
+  }
+
+  #emojiPanel {
+    bottom:60px;
+    left:5px;
+    width:calc(100% - 10px);
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  }
+}
 </style>
 </head>
 <body>
@@ -231,24 +265,7 @@ button:hover { box-shadow:0 0 30px var(--hover); background: var(--hover); }
     <button id="screenBtn">🖥️</button>
   </div>
 
-  <div id="emojiPanel" style="
-    display:none; 
-    position:absolute; 
-    bottom:70px; 
-    left:10px; 
-    width:340px; 
-    max-height:200px; 
-    background: var(--bg-chat); 
-    padding:10px; 
-    border-radius:12px; 
-    box-shadow:0 0 25px var(--accent); 
-    overflow-y:auto;
-    display:grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap:8px;
-    z-index:5;
-  ">
-  </div>
+  <div id="emojiPanel" style="display:none;"></div>
 </div>
 
 <div class="users">
@@ -294,24 +311,19 @@ function sendMessage() {
   chat.scrollTop = chat.scrollHeight;
 }
 
-// Send button & Enter key
 sendBtn.onclick = sendMessage;
 input.addEventListener('keydown', (e) => { if(e.key==="Enter") sendMessage(); });
 
-// Mic / Screen placeholders
 const micBtn = document.getElementById('micBtn');
 const screenBtn = document.getElementById('screenBtn');
 micBtn.onclick = () => alert("Микрофон пока не подключен к серверу");
 screenBtn.onclick = () => alert("Экран пока не подключен к серверу");
 
-// Emoji panel
 const emojiBtn = document.getElementById('emojiBtn');
 const emojiPanel = document.getElementById('emojiPanel');
 
-// эмодзи список
 const emojis = ["😎","😂","😍","😢","😡","👍","👎","🎉","💜","😁","🤔","🙌","🥳","🤩","😭","🤖","🐱","🐶","🦊","🐸","🐵","🐼","🐧","🦄","🌸","🌞","🌙","⭐","⚡","🔥","💧","🌊","🍕","🍔","🍟","🍦","🍩","🍪","🍫","🎂","🏆","🎮","🎧","🎵","🎤","🎬"];
 
-// генерация уникальных цветов
 function generateColors(n){
   const colors = [];
   while(colors.length < n){
@@ -325,8 +337,6 @@ function generateColors(n){
 }
 
 const colors = generateColors(emojis.length);
-
-// заполнение панели
 emojis.forEach((e,i)=>{
   const span = document.createElement('span');
   span.textContent = e;
@@ -334,7 +344,6 @@ emojis.forEach((e,i)=>{
   emojiPanel.appendChild(span);
 });
 
-// клик по эмодзи
 emojiPanel.addEventListener('click', (e) => {
   if(e.target.tagName === "SPAN") {
     input.value += e.target.textContent;

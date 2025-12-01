@@ -22,11 +22,32 @@ body {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display:grid;
   grid-template-columns: 80px 220px 1fr 200px;
+  grid-template-rows: 70px 1fr;
   height:100vh;
   background: var(--bg-main);
   color: var(--text-main);
+  overflow: hidden;
 }
 
+/* ====== Неоновый заголовок ====== */
+.header {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #c77dff;
+  text-shadow:
+    0 0 5px #c77dff,
+    0 0 10px #c77dff,
+    0 0 20px #e0aaff,
+    0 0 30px #e0aaff,
+    0 0 40px #c77dff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ====== Остальной CSS ====== */
 .servers {
   background: var(--bg-sidebar);
   display:flex;
@@ -34,6 +55,7 @@ body {
   align-items:center;
   padding:10px 0;
   box-shadow: 0 0 20px rgba(199,125,255,0.5);
+  grid-row: 2 / 3;
 }
 .servers div {
   width:50px;
@@ -51,6 +73,7 @@ body {
   background: var(--bg-sidebar);
   padding:15px;
   box-shadow:0 0 20px rgba(199,125,255,0.4);
+  grid-row: 2 / 3;
 }
 .sidebar h2, .users h2 {
   margin:0 0 10px 0;
@@ -72,6 +95,7 @@ body {
   flex-direction:column;
   padding:10px;
   background: var(--bg-chat);
+  grid-row: 2 / 3;
 }
 .chat {
   flex:1;
@@ -173,6 +197,9 @@ button:hover { box-shadow:0 0 30px var(--hover); background: var(--hover); }
 </style>
 </head>
 <body>
+
+<!-- ====== Неоновый заголовок ====== -->
+<div class="header">Discord X</div>
 
 <div class="modal" id="nicknameModal">
   <div class="modal-content">
@@ -319,14 +346,6 @@ emojiBtn.onclick = () => {
   emojiPanel.style.display = emojiPanel.style.display === "none" ? "grid" : "none";
 };
 </script>
-  <div>
-  <video id="localVideo" autoplay muted></video>
-  <div id="remoteVideos"></div>
-</div>
-  
-const socket = io("https://<colab-provided-url>:5000");
 
 </body>
 </html>
-
-
